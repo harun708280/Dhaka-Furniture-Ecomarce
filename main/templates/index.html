@@ -37,7 +37,7 @@
 					{% for p in product_home %}
 					<!-- Start Column 2 -->
 					<div class="col-12 col-md-4 col-lg-3 mb-5 mb-md-0">
-						<a class="product-item" href="{% url "cart" %}">
+						<a class="product-item" href="{% url "product_details" p.id %}">
 							<img src="{{p.img.url}}" class="img-fluid product-thumbnail">
 							<h3 class="product-title">{{p.name}}</h3>
 							<strong class="product-price">৳{{p.price}}</strong>

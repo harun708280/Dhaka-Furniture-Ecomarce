@@ -10,9 +10,11 @@ def Home(request):
     
     return render(request,'index.html',locals())
 class ProductDetailsview(View):
-    def get(self,request):
+    def get(self,request,pk):
         
-        return render(request,'product_details.html')
+        product_detail=Product.objects.get(pk=pk)
+        
+        return render(request,'product_details.html',locals())
 def Shop(request):
     return render(request,'shop.html')
 
