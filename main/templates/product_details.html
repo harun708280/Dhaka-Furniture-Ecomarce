@@ -14,19 +14,27 @@
                 <div class="card">
                     <div class="row no-gutters">
                         <div class="col-md-4">
-                            <img src="{{product_detail.img.url}}" class="card-img" alt="Product Image">
+                            <img src="{{ product_detail.img.url }}" class="card-img" alt="Product Image">
                         </div>
                         <div class="col-md-8">
                             <div class="card-body">
-                                <h5 class="card-title">{{product_detail.name}}</h5>
-                                <p class="card-text">{{product_detail.product_info}}</p>
-                                <p class="card-text">Price: {{product_detail.price}}</p>
-                                <p class="card-text">Availability: {{product_detail.abability}}</p>
-                                <button class="btn btn-primary">Add to Cart</button>
+                                <h5 class="card-title">{{ product_detail.name }}</h5>
+                                <p class="card-text">{{ product_detail.product_info }}</p>
+                                <p class="card-text">Price: {{ product_detail.price }}</p>
+                                <p class="card-text">Availability: {{ product_detail.abability }}</p>
+                                <form action="/add-to-cart">
+                                    <input type="hidden" name="prod_id" value="{{product_detail.id }}" id="prod_id"> 
+                                    <input type="hidden" name="product_quantity" id="product_quantity" value="1"> 
+                                    <button type="submit" class="btn btn-danger rounded-pill px-4 py-2 mb-4 text-white">
+                                        <span class="icon_bag_alt"></span> Add to Cart
+                                    </button>
+                                </form>
+                               
                             </div>
                         </div>
                     </div>
                 </div>
+                
                 <div class="text-center mt-4">
                     <button class="btn btn-secondary" onclick="window.history.back('home');">Back to Previous Page</button>
                 </div>
@@ -34,5 +42,4 @@
         </div>
     </div>
 </body>
-
-        {% endblock content %}
+ {% endblock content %}
