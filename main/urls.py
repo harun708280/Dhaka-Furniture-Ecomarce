@@ -16,5 +16,6 @@ urlpatterns = [
     path('login/',auth_views.LoginView.as_view(template_name='login.html',authentication_form=LoginForm),name='login'),
     path('log-out/',auth_views.LogoutView.as_view(next_page='login'),name='log-out'),
     path('registration/',views.registration,name='registration'),
-    path('cart/',views.Cart,name='cart')
+    path('cart/',views.Cart,name='cart'),
+    path('product_details/',views.ProductDetailsview.as_view(),name='product_details')
 ]+static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
