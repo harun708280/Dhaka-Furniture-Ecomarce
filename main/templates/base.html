@@ -34,7 +34,7 @@
 
 				<div class="collapse navbar-collapse" id="navbarsFurni">
 					<ul class="custom-navbar-nav navbar-nav ms-auto mb-2 mb-md-0">
-						<li class="nav-item active">
+						<li class="nav-item ">
 							<a class="nav-link" href="{% url "home" %}">Home</a>
 						</li>
 						<li><a class="nav-link" href="{% url "shop" %}">Shop</a></li>
@@ -46,19 +46,26 @@
 
 					<ul class="custom-navbar-cta navbar-nav mb-2 mb-md-0 ms-5">
                         <li>
-                        <div class="nav-item dropdown">
-                            <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><img src="{% static "images/user.svg" %}"></a>
-                           
-                            <div class="dropdown-menu m-0 rounded-0" style="background-color: #3B5D50;">
-                                <a href="{% url "login" %}" class="dropdown-item text-white">Login</a>
-                                <a href="{% url "registration" %}" class="dropdown-item text-white">Registration</a>
-                                <a href="#" class="dropdown-item text-white">Order Detials</a>
-                                <a href="#" class="dropdown-item text-white">Log-Out</a>
-                            </div>
-                            
-                        </div>
+							<div class="nav-item dropdown">
+								<a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+									<img src="{% static "images/user.svg" %}">
+								</a>
+								<div class="dropdown-menu m-0 rounded-0" style="background-color: #3B5D50;">
+									{% if request.user.is_authenticated %}
+									<a href="#" class="dropdown-item text-white">Order Details</a>
+									<form action="{% url "log-out" %}" method='POST'>
+										{% csrf_token %}
+										<button type="submit" class="dropdown-item  text-white">Logout</button>
+									</form>
+									{% else %}
+									<a href="{% url "login" %}" class="dropdown-item text-white">Login</a>
+									<a href="{% url "registration" %}" class="dropdown-item text-white">Registration</a>
+									{% endif %}
+								</div>
+							</div>
+							
 						</li>
-						<li><a class="nav-link" href="cart.html"><img src="{% static "images/cart.svg" %}"></a></li>
+						<li><a class="nav-link" href="{% url "cart" %}"><img src="{% static "images/cart.svg" %}"></a></li>
 					</ul>
 				</div>
 			</div>

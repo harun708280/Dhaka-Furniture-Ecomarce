@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Login{% endblock title %}
+{% block content %}
+		
+<h2 class="text-center" style="color: #3B5D50;"><i>Dhaka Furniture Login Now</i></h2>
+
+
+
+<div class="container">
+    <div class="row mb-1">
+        <!-- Content above the billing details -->
+    </div>
+    <div class="row justify-content-center"> 
+        <div class="col-md-8 ">
+            <form action="" method='POST'>
+                {% csrf_token %}
+            <div class="row justify-content-center">
+                <div class="col-md-12">
+                    <div class="form-group">
+                       
+                        <input type="text" class="form-control form-control-sm" id="c_companyname" name="username" style="height: 40px; width: 350px; margin: 0 auto;"  placeholder="Username">
+                    </div>
+                    <br>
+                    <div class="form-group">
+                       
+                        <input type="password" class="form-control form-control-sm" id="c_password" name="password" style="height: 40px; width: 350px; margin: 0 auto;"  placeholder="Enter Correct Password">
+                    </div>
+                </div>
+            </div>
+            <br>
+            <div class="form-group text-center">
+                <button class="btn btn-black text-center btn-lg btn-block" onclick="window.location='thankyou.html'">Login</button>
+                <p>You have an account? <a href="{% url "registration" %}">Sing-up</a></p>
+            </div>
+        </form>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <!-- Additional content -->
+    </div>
+</div>
+
+
+          {% endblock content %}

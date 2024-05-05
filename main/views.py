@@ -1,5 +1,6 @@
-from django.shortcuts import render
-
+from django.shortcuts import render,redirect
+from.form import *
+from django.contrib import messages
 # Create your views here.
 def Home(request):
     return render(request,'index.html')
@@ -23,6 +24,20 @@ def contract(request):
     return render(request,'contact.html')
 
 def registration(request):
+    
+    form=RegistrationForm()
+    if request.method == 'POST':
+        form=RegistrationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request,'Congratulation Succesfully Registration Done')
+            return redirect('login')
+        
+        else:
+            return render(request,'eror.html')
+        
+            
+    
     return render(request,'registration.html')
 
 def login(request):
