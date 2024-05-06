@@ -1,5 +1,5 @@
 from django import forms
-
+from .models import *
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm,AuthenticationForm,UsernameField
 
@@ -12,4 +12,6 @@ class LoginForm(AuthenticationForm):
     class Meta:
         
         fields=['username','password']        
-        
+
+class CouponForm(forms.Form):
+    code =forms.CharField()

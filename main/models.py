@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.core.validators import MaxValueValidator,MinValueValidator
 # Create your models here.
 class Customer_Contract_From(models.Model):
     name=models.CharField( max_length=50)
@@ -35,3 +36,17 @@ class Cart(models.Model):
     
     def line_total(self):
         return self.product.price*self.quantity
+    
+class Coupon(models.Model):
+    code = models.CharField( max_length=50,unique=True)
+    valid_date=models.DateField() 
+    valid_form=models.DateField()  
+    discaunt=models.FloatField()
+    active=models.BooleanField(default=False)
+    
+    def __str__(self):
+        return self.code
+    
+    
+    
+    

@@ -58,7 +58,7 @@
 										</div>
 									</td>
 									<td>{{ cart_item.line_total }}</td>
-									<td><a href="#" class="btn btn-black btn-sm">X</a></td>
+									<td><a href="{% url "delete_carts" cart_item.id %}" class="btn btn-black btn-sm">X</a></td>
 								</tr>
 								{% endfor %}
 
@@ -78,7 +78,7 @@
                       <a href="{% url "cart" %}"><button class="btn btn-black btn-sm btn-block">Update Cart</button></a>
                     </div>
                     <div class="col-md-6">
-                      <button class="btn btn-outline-black btn-sm btn-block">Continue Shopping</button>
+                      <a href="{% url "shop" %}"><button class="btn btn-outline-black btn-sm btn-block">Continue Shopping</button></a>
                     </div>
                   </div>
                   <div class="row">
@@ -86,12 +86,16 @@
                       <label class="text-black h4" for="coupon">Coupon</label>
                       <p>Enter your coupon code if you have one.</p>
                     </div>
-                    <div class="col-md-8 mb-3 mb-md-0">
-                      <input type="text" class="form-control py-3" id="coupon" placeholder="Coupon Code">
-                    </div>
-                    <div class="col-md-4">
-                      <button class="btn btn-black">Apply Coupon</button>
-                    </div>
+                    <form action="" method='POST'>
+                      {% csrf_token %}
+                      <div class="col-md-8 mb-3 mb-md-0">
+                        <input type="text" name='code' class="form-control py-3" id="coupon" placeholder="Coupon Code">
+                      </div>
+                      <div class="col-md-4">
+                        <button type='submit' class="btn btn-black btn-sm btn-block">Apply Coupon</button>
+                      
+                      </div>
+                  </form>
                   </div>
                 </div>
                 <div class="col-md-6 pl-5">
@@ -107,16 +111,26 @@
                           <span class="text-black">Subtotal</span>
                         </div>
                         <div class="col-md-6 text-right">
-                          <strong class="text-black">$230.00</strong>
+                          <strong class="text-black">{{amount}}</strong>
                         </div>
                       </div>
                       <div class="row mb-5">
                         <div class="col-md-6">
+                          {% if coupon_discaunt %}
                           <span class="text-black">Total</span>
                         </div>
                         <div class="col-md-6 text-right">
-                          <strong class="text-black">$230.00</strong>
+                          <strong class="text-black">{{coupon_discaunt}}</strong>
                         </div>
+                        {% else %}
+                        <div class="col-md-6">
+                         
+                          <span class="text-black">Total</span>
+                        </div>
+                        <div class="col-md-6 text-right">
+                          <strong class="text-black">{{amount}}</strong>
+                        </div>
+                        {% endif %}
                       </div>
         
                       <div class="row">
@@ -130,6 +144,6 @@
               </div>
             </div>
           </div>
-		
+		<br> <br> <br>
 
 		{% endblock content %}
