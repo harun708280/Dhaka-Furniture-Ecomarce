@@ -83,4 +83,13 @@ class OurTeam(models.Model):
     
     def __str__(self):
         return self.name
+
+class Testimonial(models.Model):
+    name=models.CharField( max_length=50)
+    title=models.CharField( max_length=50)
+    description=models.TextField()
+    image=models.ImageField( upload_to='Testimonial')
+    
+    def __str__(self):
+        return self.name
     

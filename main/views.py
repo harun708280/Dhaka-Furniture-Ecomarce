@@ -18,9 +18,8 @@ from django.urls import reverse
 def Home(request):
     product_home=Product.objects.all()[:3]
     
-
-    
-    
+    testimonial=Testimonial.objects.all() 
+             
     return render(request,'index.html',locals())
 class ProductDetailsview(View):
     def get(self,request,pk):
@@ -235,6 +234,7 @@ def Shop(request):
     return render(request,'shop.html',locals())
 
 def About(request):
+    tesimonial=Testimonial.objects.all()
     team=OurTeam.objects.all()
     
     return render(request,'about.html',locals())

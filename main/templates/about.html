@@ -10,7 +10,7 @@
 							<div class="intro-excerpt">
 								<h1>About Us Dhaka Furniture</h1>
 								<p class="mb-4">Donec vitae odio quis nisl dapibus malesuada. Nullam ac aliquet velit. Aliquam vulputate velit imperdiet dolor tempor tristique.</p>
-								<p><a href="{% url "shop" %}" class="btn btn-secondary me-2">Shop Now</a><a href="#" class="btn btn-white-outline">Explore</a></p>
+								<p><a href="{% url "shop" %}" class="btn btn-secondary me-2">Shop Now</a><a href="{% url "blog" %}" class="btn btn-white-outline">Explore</a></p>
 							</div>
 						</div>
 						<div class="col-lg-7">
@@ -94,7 +94,7 @@
 
 				<div class="row mb-5">
 					<div class="col-lg-5 mx-auto text-center">
-						<h2 class="section-title">Our Team</h2>
+						<h2 class="section-title">Our Expart Team</h2>
 					</div>
 				</div>
 
@@ -146,77 +146,29 @@
 							</div>
 
 							<div class="testimonial-slider">
-								
-								<div class="item">
-									<div class="row justify-content-center">
-										<div class="col-lg-8 mx-auto">
-
-											<div class="testimonial-block text-center">
-												<blockquote class="mb-5">
-													<p>&ldquo;Donec facilisis quam ut purus rutrum lobortis. Donec vitae odio quis nisl dapibus malesuada. Nullam ac aliquet velit. Aliquam vulputate velit imperdiet dolor tempor tristique. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Integer convallis volutpat dui quis scelerisque.&rdquo;</p>
-												</blockquote>
-
-												<div class="author-info">
-													<div class="author-pic">
-														<img src="images/person-1.png" alt="Maria Jones" class="img-fluid">
+								{% for testimonial in tesimonial %}
+									<div class="item">
+										<div class="row justify-content-center">
+											<div class="col-lg-8 mx-auto">
+												<div class="testimonial-block text-center">
+													<blockquote class="mb-5">
+														<p>&ldquo;{{ testimonial.description }}&rdquo;</p>
+													</blockquote>
+													<div class="author-info">
+														<div class="author-pic">
+															<img src="{{ testimonial.image.url }}" alt="{{ testimonial.name }}"  class="img-fluid" >
+														</div>
+														<h3 class="font-weight-bold">{{ testimonial.name }}</h3>
+														<span class="position d-block mb-3">{{ testimonial.title }}</span>
 													</div>
-													<h3 class="font-weight-bold">Maria Jones</h3>
-													<span class="position d-block mb-3">CEO, Co-Founder, XYZ Inc.</span>
 												</div>
 											</div>
-
 										</div>
 									</div>
-								</div> 
+								{% endfor %}
 								<!-- END item -->
-
-								<div class="item">
-									<div class="row justify-content-center">
-										<div class="col-lg-8 mx-auto">
-
-											<div class="testimonial-block text-center">
-												<blockquote class="mb-5">
-													<p>&ldquo;Donec facilisis quam ut purus rutrum lobortis. Donec vitae odio quis nisl dapibus malesuada. Nullam ac aliquet velit. Aliquam vulputate velit imperdiet dolor tempor tristique. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Integer convallis volutpat dui quis scelerisque.&rdquo;</p>
-												</blockquote>
-
-												<div class="author-info">
-													<div class="author-pic">
-														<img src="images/person-1.png" alt="Maria Jones" class="img-fluid">
-													</div>
-													<h3 class="font-weight-bold">Maria Jones</h3>
-													<span class="position d-block mb-3">CEO, Co-Founder, XYZ Inc.</span>
-												</div>
-											</div>
-
-										</div>
-									</div>
-								</div> 
-								<!-- END item -->
-
-								<div class="item">
-									<div class="row justify-content-center">
-										<div class="col-lg-8 mx-auto">
-
-											<div class="testimonial-block text-center">
-												<blockquote class="mb-5">
-													<p>&ldquo;Donec facilisis quam ut purus rutrum lobortis. Donec vitae odio quis nisl dapibus malesuada. Nullam ac aliquet velit. Aliquam vulputate velit imperdiet dolor tempor tristique. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Integer convallis volutpat dui quis scelerisque.&rdquo;</p>
-												</blockquote>
-
-												<div class="author-info">
-													<div class="author-pic">
-														<img src="images/person-1.png" alt="Maria Jones" class="img-fluid">
-													</div>
-													<h3 class="font-weight-bold">Maria Jones</h3>
-													<span class="position d-block mb-3">CEO, Co-Founder, XYZ Inc.</span>
-												</div>
-											</div>
-
-										</div>
-									</div>
-								</div> 
-								<!-- END item -->
-
 							</div>
+							
 
 						</div>
 					</div>
