@@ -29,11 +29,6 @@
               <div class="row mb-5">
                 <form class="col-md-12" method="post">
                   <div class="site-blocks-table">
-                    {% for message in messages %}
-                      <div class="alert alert-{{ message.tags }} {% if message.tags == 'warning' %}bg-warning text-black{% elif message.tags == 'error' %}bg-danger{% elif message.tags == 'success' %}bg-success{% endif %}" role="alert">
-                        <h6 class="text-center">{{ message }}</h6>
-                      </div>
-                  {% endfor %}
                     <table class="table">
                       <thead>
                         <tr>
@@ -46,26 +41,28 @@
                         </tr>
                       </thead>
                       <tbody>
-                      {% for cart_item in cart %}
-                          <tr>
-                            <td class="product-thumbnail">
-                              <img src="{{ cart_item.product.img.url }}" alt="Image" class="img-fluid">
-                            </td>
-                            <td class="product-name">
-                              <h2 class="h5 text-black">{{ cart_item.product.name }}</h2>
-                            </td>
-                            <td>৳{{ cart_item.product.price }}</td>
-                            <td>
-                              <div class="input-group mb-3 d-flex align-items-center quantity-container" style="max-width: 120px;">
-                                <a class="minus-cart btn" data-cart-id="{{ cart_item.id }}"><i class="fas fa-minus-square fa-lg"></i></a>
-                                <span class="quantity" id="quantity-{{ cart_item.id }}">{{ cart_item.quantity }}</span>
-                                <a class="plus-cart btn" data-cart-id="{{ cart_item.id }}"><i class="fas fa-plus-square fa-lg"></i></a>
-                              </div>
-                            </td>
-                            <td>{{ cart_item.line_total }}</td>
-                            <td><a href="{% url "delete_carts" cart_item.id %}" class="btn btn-black btn-sm">X</a></td>
-                          </tr>
-                          {% endfor %}
+						{% for cart_item in cart %}
+								<tr>
+									<td class="product-thumbnail">
+										<img src="{{ cart_item.product.img.url }}" alt="Image" class="img-fluid">
+									</td>
+									<td class="product-name">
+										<h2 class="h5 text-black">{{ cart_item.product.name }}</h2>
+									</td>
+									<td>৳{{ cart_item.product.price }}</td>
+									<td>
+										<div class="input-group mb-3 d-flex align-items-center quantity-container" style="max-width: 120px;">
+											<a class="minus-cart btn" data-cart-id="{{ cart_item.id }}"><i class="fas fa-minus-square fa-lg"></i></a>
+											<span class="quantity" id="quantity-{{ cart_item.id }}">{{ cart_item.quantity }}</span>
+											<a class="plus-cart btn" data-cart-id="{{ cart_item.id }}"><i class="fas fa-plus-square fa-lg"></i></a>
+										</div>
+									</td>
+									<td>{{ cart_item.line_total }}</td>
+                  {% if cart_item.sta %}
+									<td><a href="{% url "delete_carts" cart_item.id %}" class="btn btn-black btn-sm">X</a></td>
+                  {% endif %}
+								</tr>
+								{% endfor %}
 
 
         
@@ -96,12 +93,11 @@
                       <div class="col-md-8 mb-3 mb-md-0">
                         <input type="text" name='code' class="form-control py-3" id="coupon" placeholder="Coupon Code">
                       </div>
-                      <br>
                       <div class="col-md-4">
                         <button type='submit' class="btn btn-black btn-sm btn-block">Apply Coupon</button>
                       
                       </div>
-                    </form>
+                  </form>
                   </div>
                 </div>
                 <div class="col-md-6 pl-5">

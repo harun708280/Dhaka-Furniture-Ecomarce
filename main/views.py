@@ -1,5 +1,7 @@
 from django.shortcuts import render,redirect
 from.form import *
+from django.core.exceptions import ObjectDoesNotExist
+from django.http import HttpResponse
 from .models import*
 from django.views import View
 from django.contrib import messages
@@ -11,6 +13,7 @@ from django.http import JsonResponse
 from django.db.models import Sum
 from django.http import HttpResponseBadRequest
 from django.core.paginator import Paginator
+from django.urls import reverse
 # Create your views here.
 def Home(request):
     product_home=Product.objects.all()[:3]
@@ -37,58 +40,159 @@ def carts(request):
             quantity = cart_item.quantity
             cart_item.quantity = product_quantity
             cart_item.save()
-            #cart = Cart.objects.get(user=user)
         except Cart.DoesNotExist:
-            cart = Cart.objects.create(user=user,product=product,quantity=product_quantity)
+            cart = Cart.objects.create(user=user, product=product, quantity=product_quantity)
             cart.save()
         return redirect('/cart')
-       
-def show_cart(request):
-    
-    if request.user.is_authenticated:
+    else:
+        return redirect('login')
 
-        user=request.user
-        cart=Cart.objects.filter(user=user)
-        amount=0.0
+def show_cart(request):
+    if request.user.is_authenticated:
+        user = request.user
+        cart = Cart.objects.filter(user=user)
+        amount = 0.0
         
-        cart_product=[p for p in Cart.objects.all() if p.user==user]
+        cart_product = [p for p in Cart.objects.all() if p.user == user]
         if cart_product:
             for p in cart_product:
-                temamount=(p.quantity*p.product.price)
-                amount=temamount+amount
+                temamount = p.quantity * p.product.price
+                amount = temamount + amount
             
             if request.method == "POST":
-                cuopon_form=CouponForm(request.POST)
+                cuopon_form = CouponForm(request.POST)
                 if cuopon_form.is_valid():
-                    current_time=timezone.now()
+                    current_time = timezone.now()
                     code = cuopon_form.cleaned_data.get('code')
-
-                    current_coupon=Coupon.objects.get(code=code)
-                    if current_coupon.valid_form >= current_time.date() and current_coupon.active :
-                        discaunt_price=(current_coupon.discaunt/100)*amount
-                        coupon_discaunt=amount-discaunt_price
-                        request.session['total_discaunt'] = coupon_discaunt 
-                        request.session['coupon_code']=code
-                        return redirect('cart')
                     
-                    else:
-                        return redirect('shop')
+                    try:
+                      
+
+                        current_coupon = Coupon.objects.get(code=code)
+                        if current_coupon.valid_form >= current_time.date() and current_coupon.active :
+                            discaunt_price = (current_coupon.discaunt / 100) * amount
+                            coupon_discaunt = amount - discaunt_price
+                            request.session['total_discaunt'] = coupon_discaunt 
+                            request.session['coupon_code'] = code
+                            messages.warning(request,'Coupon Add Successfully')
+                            return redirect('cart')
+                    except ObjectDoesNotExist:
+                        
+                        
+                        messages.warning(request, 'Not valid coupon')
+    
+                        return redirect('cart') 
                 
-            coupon_discaunt= request.session.get('total_discaunt') 
-            code=request.session.get('coupon_code')  
+            coupon_discaunt = request.session.get('total_discaunt') 
+            code = request.session.get('coupon_code')
             
-            return render(request,"cart.html",{'cart':cart,'line_total':Cart.line_total,'amount':amount,'coupon_discaunt':coupon_discaunt,'code':code})
-                           
+            return render(request, "cart.html", {'cart': cart, 'line_total': Cart.line_total, 'amount': amount, 'coupon_discaunt': coupon_discaunt, 'code': code})
         else:
-            
- 
-            return render(request,'404.html')
+            return render(request, '404.html')
+    else:
+        return redirect('login')  # Redirect to login page if user is not authenticated
+
         
         
 def Delete_cart(request,id):
     cart=Cart.objects.get(id=id)
     cart.delete()
     return redirect('cart')        
+
+def Checkout(request):
+    if request.user.is_authenticated:
+        user = request.user
+        cart = Cart.objects.filter(user=user)
+        amount = 0.0
+        
+        cart_product = [p for p in Cart.objects.all() if p.user == user]
+        if cart_product:
+            for p in cart_product:
+                temamount = p.quantity * p.product.price
+                amount = temamount + amount
+            
+            if request.method == "POST":
+                cuopon_form = CouponForm(request.POST)
+                if cuopon_form.is_valid():
+                    current_time = timezone.now()
+                    code = cuopon_form.cleaned_data.get('code')
+                    
+                    try:
+                      
+
+                        current_coupon = Coupon.objects.get(code=code)
+                        if current_coupon.valid_form >= current_time.date() and current_coupon.active :
+                            discaunt_price = (current_coupon.discaunt / 100) * amount
+                            coupon_discaunt = amount - discaunt_price
+                            request.session['total_discaunt'] = coupon_discaunt 
+                            request.session['coupon_code'] = code
+                            messages.warning(request,'Coupon Add Successfully')
+                            return redirect('cart')
+                    except ObjectDoesNotExist:
+                        
+                        
+                        messages.warning(request, 'Not valid coupon')
+    
+                        return redirect('cart') 
+                
+            coupon_discaunt = request.session.get('total_discaunt') 
+            code = request.session.get('coupon_code')
+                    
+                 
+    return render(request,'checkout.html',{'total_discaount':coupon_discaunt,'amount':amount,'cart':cart})
+
+def order_place(request):
+    if request.user.is_authenticated:
+        if request.method == 'POST':
+            country = request.POST.get('country')
+            f_name = request.POST.get('c_fname')
+            l_name = request.POST.get('c_lname')
+            c_name = request.POST.get('c_companyname')
+            address = request.POST.get('c_address')
+            apartment = request.POST.get('apr')
+            state = request.POST.get('c_state_country')
+            zip_code = request.POST.get('c_postal_zip')
+            email = request.POST.get('c_email_address')
+            phone = request.POST.get('c_phone')
+            note = request.POST.get('c_order_notes')
+            
+            if not all([country, f_name, l_name, address, state, zip_code, email, phone]):
+                messages.warning(request, 'Please Fill in All Required Fields!!!')
+                return redirect('chackout') 
+            # Server-side validation
+            if not phone or not (phone.isdigit() and len(phone) == 11):
+                messages.warning(request, 'Phone number is required and must contain Curect Number.')
+                return redirect('chackout')
+            
+            user = request.user
+            cart = Cart.objects.filter(user=user)
+            
+            for c in cart:
+                OrderPlace.objects.create(
+                    user=user,
+                    product=c.product,
+                    quantity=c.quantity,
+                    country=country,
+                    first_name=f_name,
+                    last_name=l_name,
+                    company_name=c_name,
+                    addess=address,
+                    aperment=apartment,
+                    state=state,
+                    zip=zip_code,
+                    email=email,
+                    phone=phone,
+                    note=note
+                )
+                c.delete()
+            
+            return redirect('order_succes')
+        
+        else:
+            return render(request, '404.html')
+    
+    else:
+        return redirect('home')
 
 def plus_cart(request):
     if request.method == 'GET':
@@ -131,8 +235,9 @@ def Shop(request):
     return render(request,'shop.html',locals())
 
 def About(request):
+    team=OurTeam.objects.all()
     
-    return render(request,'about.html')
+    return render(request,'about.html',locals())
 
 def Service(request):
     
@@ -165,3 +270,24 @@ def registration(request):
 def login(request):
     return render(request,'login.html')
 
+def order_succes(request):
+    return render(request,'thankyou.html')
+
+def order_details(request):
+    order=OrderPlace.objects.filter(user=request.user)
+    return render(request,'orderinf.html',{'order':order})
+
+def order_delate(request, id):
+    order = OrderPlace.objects.get(id=id)
+    order.delete()
+
+  
+    if not OrderPlace.objects.filter(user=request.user).exists():
+        
+        return redirect(reverse('no-order'))
+    else:
+       
+        return redirect(reverse('order-details'))
+
+def noorder_page(request):
+    return render(request,'nooderdetail.html')

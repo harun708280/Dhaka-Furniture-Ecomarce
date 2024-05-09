@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+
+{% load static %}
+{% block title %}Cart{% endblock title %}
+{% block content %}
+<div class="hero">
+	<div class="container">
+		<div class="row justify-content-between">
+			<div class="col-lg-5">
+				<div class="intro-excerpt">
+					<h1>Modern Interior <span clsas="d-block">Home Decorator</span></h1>
+					
+				</div>
+			</div>
+			<div class="col-lg-7">
+				<div class="hero-img-wrap">
+					<img src="{% static "images/couch.png" %}" class="img-fluid">
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+		<!-- End Hero Section -->
+
+		
+
+		<div class="untree_co-section before-footer-section">
+            <div class="container">
+              <div class="row mb-5">
+                <form class="col-md-12" method="post">
+                  <div class="site-blocks-table">
+                    {% for message in messages %}
+                      <div class="alert alert-{{ message.tags }} {% if message.tags == 'warning' %}bg-warning text-black{% elif message.tags == 'error' %}bg-danger{% elif message.tags == 'success' %}bg-success{% endif %}" role="alert">
+                        <h6 class="text-center">{{ message }}</h6>
+                      </div>
+                  {% endfor %}
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th class="product-thumbnail">Image</th>
+                          <th class="product-name">Product</th>
+                          <th class="product-price">Price</th>
+                          <th class="product-quantity">Quantity</th>                         
+                          <th class="product-remove">Status</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                      {% for Order in order %}
+                          <tr>
+                            <td class="product-thumbnail">
+                              <img src="{{ Order.product.img.url }}" alt="Image" class="img-fluid">
+                            </td>
+                            <td class="product-name">
+                              <h2 class="h5 text-black">{{ Order.product.name }}</h2>
+                            </td>
+                            <td>৳{{ Order.product.price }}</td>
+                            <td>
+                              {{Order.quantity}}
+                            </td>
+                            <td>
+                                {% if Order.status == 'Order Accept' %}
+                                <p class="btn btn-black btn-sm">{{Order.status}}</p>
+                                {% elif Order.status == 'Run the way' %}
+                                <p class="btn btn-black btn-sm">{{Order.status}}</p>
+                                {% elif Order.status == 'Dalivared' %}
+                                <p class="btn btn-black btn-sm">{{Order.status}}</p>
+
+                                {% else %}
+                                    <a href="{% url 'order-delete' Order.id %}" class="btn btn-black btn-sm">Order Cancel</a>
+                                {% endif %}
+                            
+                           </td>
+                            
+                          </tr>
+                          {% endfor %}
+
+
+        
+                        
+                      </tbody>
+                    </table>
+                  </div>
+                </form>
+              </div>
+        
+              
+            </div>
+          </div>
+		<br> <br> <br>
+
+		{% endblock content %}

@@ -1,0 +1,8 @@
+
+    /* Define custom classes for different message types */
+.alert-warning-custom {
+        background-color: #ffeeba; /* Change background color for warning messages */
+        color: #ec2323; /* Change text color for warning messages */
+    }
+
+    /* Add styles for other message types as needed */

@@ -46,7 +46,41 @@ class Coupon(models.Model):
     
     def __str__(self):
         return self.code
+
+ORDER_STATUS=(
+    ('Procecing','Procecing'),
+    ('Order Accept','Order Accept'),
+    ('Run the way','Run the way'),
+    ('Dalivared','Dalivared')
+)
+class OrderPlace(models.Model):
+    user=models.ForeignKey(User, on_delete=models.CASCADE) 
+    product=models.ForeignKey(Product, on_delete=models.CASCADE)
+    quantity= models.PositiveIntegerField(default=1)
+    country=models.CharField( max_length=50,blank=True,null=True)
+    first_name=models.CharField( max_length=50,blank=True,null=True) 
+    last_name=models.CharField( max_length=50,blank=True,null=True)
+    company_name=models.CharField( max_length=50,blank=True,null=True)
+    addess=models.CharField( max_length=50,blank=True,null=True)
+    aperment=models.CharField( max_length=50,blank=True,null=True)
+    state=models.CharField( max_length=50,blank=True,null=True)
+    zip=models.CharField( max_length=50,blank=True,null=True)
+    email=models.EmailField( max_length=50,blank=True,null=True)
+    phone=models.IntegerField(blank=True,null=True)
+    note=models.TextField(blank=True,null=True)
+    status=models.CharField(choices=ORDER_STATUS, max_length=50,blank=True,null=True)
+    
+    def __str__(self):
+        return f'{self.user.username}'
     
     
     
+class OurTeam(models.Model):
+    name=models.CharField( max_length=50)
+    title=models.CharField( max_length=50)
+    description=models.TextField()
+    img=models.ImageField(upload_to='team' )
+    
+    def __str__(self):
+        return self.name
     
