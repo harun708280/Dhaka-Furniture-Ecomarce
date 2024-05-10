@@ -14,6 +14,7 @@ from django.db.models import Sum
 from django.http import HttpResponseBadRequest
 from django.core.paginator import Paginator
 from django.urls import reverse
+from django.core.mail import send_mail
 # Create your views here.
 def Home(request):
     product_home=Product.objects.all()[:3]
@@ -236,19 +237,43 @@ def Shop(request):
 def About(request):
     tesimonial=Testimonial.objects.all()
     team=OurTeam.objects.all()
-    
+    service=OurService.objects.all()
     return render(request,'about.html',locals())
 
 def Service(request):
     
-    return render(request,'service.html')
+    service=OurService.objects.all()
+    product=Product.objects.all().order_by('-id')[:3]
+    testimonial=Testimonial.objects.all()
+    return render(request,'services.html',locals())
 
-def Blog(request):
+def Blogs(request):
+    blog=Blog.objects.all()
     
-    return render(request,'blog.html')
+    return render(request,'blog.html',locals())
 
 def contract(request):
-    return render(request,'contact.html')
+    info=ShopInfo.objects.all().order_by('-id')[:1]
+    if request.method == 'POST':
+        first_name=request.POST.get('first_name')
+        last_name=request.POST.get('last_name')
+        email=request.POST.get('email')
+        message = request.POST.get('message')
+        user=request.user
+        data={
+            'user':user,
+            'email':email,
+            'message':message
+        }
+        email_sent='''
+        User: {}
+        Email: {}
+        Message: {}
+        '''.format(data['user'],data['email'],data['message'])
+        send_mail('Dhaka Furniture Contract :',email_sent,'',['harun708280@gmail.com'])
+        contract_save=contact.objects.create(user=user,message=message,first_name=first_name,last_name=last_name,email=email, )
+        contract_save.save()
+    return render(request,'contact.html',locals())
 
 def registration(request):
     

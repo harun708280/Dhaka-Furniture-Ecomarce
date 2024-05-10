@@ -93,3 +93,39 @@ class Testimonial(models.Model):
     def __str__(self):
         return self.name
     
+class OurService(models.Model):
+    title=models.CharField( max_length=50)
+    information=models.TextField()
+    image=models.ImageField( upload_to='Service')
+    
+    def __str__(self):
+        return self.title
+
+class Blog(models.Model):
+    name=models.CharField( max_length=50)
+    title=models.CharField( max_length=250)
+    information=models.TextField(blank=True,null=False)
+    image=models.ImageField( upload_to='Blog')
+    post=models.DateField(auto_now_add=False)
+    
+    def __str__(self):
+        return self.title
+
+class ShopInfo(models.Model):
+    
+    address=models.CharField( max_length=220,blank=True,null=True)
+    email=models.EmailField( max_length=254,blank=True,null=True)
+    phone=models.CharField( max_length=50)
+    def __str__(self):
+        return str(self.id)
+    
+class contact(models.Model):
+    user=models.ForeignKey(User, on_delete=models.CASCADE)
+    first_name=models.CharField( max_length=50,blank=True,null=True)
+    last_name=models.CharField( max_length=50,blank=True,null=True)
+    email=models.CharField( max_length=50,blank=True,null=True) 
+    message=models.TextField(blank=True,null=True)
+    
+    def __str__(self):
+        return f'{self.user.username}'
+    

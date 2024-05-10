@@ -34,45 +34,19 @@
 						<p>Donec vitae odio quis nisl dapibus malesuada. Nullam ac aliquet velit. Aliquam vulputate velit imperdiet dolor tempor tristique.</p>
 
 						<div class="row my-5">
+							{% for s in service %}
 							<div class="col-6 col-md-6">
 								<div class="feature">
 									<div class="icon">
-										<img src="{% static "images/truck.svg" %}" alt="Image" class="imf-fluid">
+										<img src="{{s.image.url}}" alt="Image" class="imf-fluid" width="40" height="40">
 									</div>
-									<h3>Fast &amp; Free Shipping</h3>
-									<p>Donec vitae odio quis nisl dapibus malesuada. Nullam ac aliquet velit. Aliquam vulputate.</p>
+									<h3>{{s.title}}</h3>
+									<p>{{s.information}}</p>
 								</div>
 							</div>
+							{% endfor %}
 
-							<div class="col-6 col-md-6">
-								<div class="feature">
-									<div class="icon">
-										<img src="{% static "images/bag.svg" %}" alt="Image" class="imf-fluid">
-									</div>
-									<h3>Easy to Shop</h3>
-									<p>Donec vitae odio quis nisl dapibus malesuada. Nullam ac aliquet velit. Aliquam vulputate.</p>
-								</div>
-							</div>
-
-							<div class="col-6 col-md-6">
-								<div class="feature">
-									<div class="icon">
-										<img src="{% static "images/support.svg" %}" alt="Image" class="imf-fluid">
-									</div>
-									<h3>24/7 Support</h3>
-									<p>Donec vitae odio quis nisl dapibus malesuada. Nullam ac aliquet velit. Aliquam vulputate.</p>
-								</div>
-							</div>
-
-							<div class="col-6 col-md-6">
-								<div class="feature">
-									<div class="icon">
-										<img src="{% static "images/return.svg" %}" alt="Image" class="imf-fluid">
-									</div>
-									<h3>Hassle Free Returns</h3>
-									<p>Donec vitae odio quis nisl dapibus malesuada. Nullam ac aliquet velit. Aliquam vulputate.</p>
-								</div>
-							</div>
+							
 
 						</div>
 					</div>

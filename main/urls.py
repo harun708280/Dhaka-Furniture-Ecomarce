@@ -10,7 +10,7 @@ urlpatterns = [
     path('shop,',views.Shop,name='shop'),
     path('about/',views.About,name='about'),
     path('service/',views.Service,name='service'),
-    path('blog/',views.Blog,name='blog'),
+    path('blog/',views.Blogs,name='blog'),
     path('contact',views.contract,name='contact'),
     
     path('login/',auth_views.LoginView.as_view(template_name='login.html',authentication_form=LoginForm),name='login'),
